@@ -40,7 +40,7 @@ func main() {
 	}
 
 	// Parse template.
-	tem, err = template.ParseFiles("templates/goindex.html")
+	tem, err = template.ParseFiles("templates/index.gohtml")
 
 	if err != nil {
 		log.Fatalln(err)
