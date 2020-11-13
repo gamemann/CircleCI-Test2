@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
 	"html/template"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 var tem *template.Template
@@ -33,7 +33,7 @@ func main() {
 
 	// We want to create the server itself so we can specify the read and write timeouts.
 	srv := &http.Server{
-		Addr:         ":" + strconv.Itoa(8808),
+		Addr:         ":8808",
 		Handler:      r,
 		ReadTimeout:  time.Second * 30,
 		WriteTimeout: time.Second * 30,
