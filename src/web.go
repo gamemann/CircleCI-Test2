@@ -16,7 +16,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	tem.Execute(w, nil)
 }
 
-func createwebserver(port int) error {
+func main() {
+	var err error
+
 	// Create new router.
 	r := mux.NewRouter()
 
@@ -31,27 +33,20 @@ func createwebserver(port int) error {
 
 	// We want to create the server itself so we can specify the read and write timeouts.
 	srv := &http.Server{
-		Addr:         ":" + strconv.Itoa(port),
+		Addr:         ":" + strconv.Itoa(8808),
 		Handler:      r,
 		ReadTimeout:  time.Second * 30,
 		WriteTimeout: time.Second * 30,
 	}
 
 	// Parse template.
-	var err error
 	tem, err = template.ParseFiles("templates/index.html")
 
-	if err != nil {
-		return err
-	}
+	log.Fatalln(err)
 
-	// Initiate the server and have it listen on whatever port we specified (8808).
+	// Initiate the server and have it listen on port TCP/8808.
 	err = srv.ListenAndServe()
 
-	return err
-}
-
-func main() {
 	// Create the web server and if it returns false, log the error.
-	log.Fatal(createwebserver(8808))
+	log.Fatalln(err)
 }
