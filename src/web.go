@@ -42,11 +42,14 @@ func main() {
 	// Parse template.
 	tem, err = template.ParseFiles("templates/index.html")
 
-	log.Fatalln(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	// Initiate the server and have it listen on port TCP/8808.
 	err = srv.ListenAndServe()
 
-	// Create the web server and if it returns false, log the error.
-	log.Fatalln(err)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
