@@ -31,7 +31,7 @@ def main(argv):
     binary = FirefoxBinary(firefoxpath)
 
     # Launch Firefox driver setting custom binary path and firefox options.
-    driver = webdriver.Firefox(firefox_binary=binary, firefox_options=opts)
+    driver = webdriver.Firefox(firefox_binary=binary, options=opts)
 
     # Get our website.
     driver.get("http://127.0.0.1:8808")
