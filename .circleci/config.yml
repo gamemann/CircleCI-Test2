@@ -15,8 +15,12 @@ jobs:
       # Checkout our source code.
       - checkout
 
+      # Install Go Mux dependency.
+      - run: go get -u github.com/gorilla/mux
+
       # Build our Go web application.
       - run: go build src/web.go
+
   # Test our Go web application using the tests/execbtn.py Python script.
   test:
     docker:
