@@ -9,11 +9,16 @@ You'll need to execute the following to download the Go Mux package:
 go get -u github.com/gorilla/mux
 ```
 
-## Building the application.
+## Building The Application.
 You may simply build the application using the following:
 
 ```
 go build src/web.go
+```
+
+This will produce a binary called `web`. From here, you may execute the binary to start the web server:
+
+```
 ./web
 ```
 
