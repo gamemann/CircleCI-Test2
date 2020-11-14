@@ -10,9 +10,6 @@ jobs:
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
-    
-    # Set working directory to /tmp.
-    working_directory: /tmp
 
     # Steps to execute to build our project.
     steps:
@@ -43,14 +40,11 @@ jobs:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
 
-    # Set working directory to /tmp.
-    working_directory: /tmp
-
     # Steps to test our project.
     steps:
       # Attach workspace.
       - attach_workspace:
-        at: build
+        at: build/
       
       # Test.
       - run: ls -la build/
