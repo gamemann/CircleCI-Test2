@@ -21,6 +21,11 @@ jobs:
       # Build our Go web application.
       - run: go build src/web.go
 
+      # Allow us to use web binary in other jobs (e.g. test).
+      persist_to_workspace:
+        paths:
+          - web
+
   # Test our Go web application using the tests/execbtn.py Python script.
   test:
     docker:
@@ -32,8 +37,13 @@ jobs:
 
     # Steps to test our project.
     steps:
-      # Checkout our source code.
-      - checkout
+      # Attach workspace.
+      - attach_workspace:
+        at: .
+      
+      # Test.
+      - run: ls -la
+
       - run: echo "This test job is not finished."
 # Perform our workflows.
 worksflows:
