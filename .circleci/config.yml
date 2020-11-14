@@ -22,9 +22,9 @@ jobs:
       - run: go build src/web.go
 
       # Allow us to use web binary in other jobs (e.g. test).
-      persist_to_workspace:
-        paths:
-          - web
+      - persist_to_workspace:
+          paths:
+            - web
 
   # Test our Go web application using the tests/execbtn.py Python script.
   test:
