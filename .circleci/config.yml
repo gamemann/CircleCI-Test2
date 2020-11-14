@@ -18,8 +18,8 @@ jobs:
 
       # Build our Go web application.
       - run:
-        name: "Build our Go web application."
-        command: go build src/web.go
+        name: Build our Go web application
+        command: 'go build src/web.go'
   # Test our Go web application using the tests/execbtn.py Python script.
   test:
     docker:
