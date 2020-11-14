@@ -58,9 +58,6 @@ jobs:
       # Update.
       - run: sudo apt-get update
 
-      # Install software common properties.
-      - run: sudo apt-get install -y software-properties-common
-
       # Install Firefox.
       - run: sudo apt-get install -y firefox-esr
 
@@ -77,7 +74,7 @@ jobs:
       - run: sudo pip install selenium
 
       # Run our Python script.
-      - run: python tests/execbtn.py -p /usr/lib/firefox/firefox
+      - run: python tests/execbtn.py -p /usr/lib/firefox-esr/firefox-esr
 
 # Perform our workflows.
 workflows:
