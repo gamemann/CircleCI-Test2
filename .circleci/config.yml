@@ -23,6 +23,7 @@ jobs:
 
       # Allow us to use web binary in other jobs (e.g. test).
       - persist_to_workspace:
+          root: .
           paths:
             - web
 
