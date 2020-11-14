@@ -1,1 +1,61 @@
-# Start to CircleCI configuration.
+# Use version 2.1 for Go.
+version: 2.1
+
+jobs:
+  # Build job for building our Go web application.
+  build:
+    docker:
+      # Choose CircleCI's Golang image.
+      - image: cimg/go:1.13
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASS
+
+    # Steps to execute to build our project.
+    steps:
+      # Checkout our source code.
+      - checkout
+
+      # Build our Go web application.
+      - run:
+        name: "Build our Go web application."
+        command: go build src/web.go
+  # Test our Go web application using the tests/execbtn.py Python script.
+  test:
+    docker:
+      # Choose CircleCI's Golang image.
+      - image: cimg/go:1.13
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASS
+
+    # Steps to test our project.
+    steps:
+      # Checkout our source code.
+      - checkout
+
+      - run: echo "This test job is not finished."
+
+
+# Perform our workflows.
+worksflows:
+  version: 2
+
+  build-test:
+    jobs:
+      - build
+      - test:
+        # Require our build job to succeed.
+        requires:
+          - build
+      - hold:
+        type: approval
+        # Require both our build and test jobs to succeed.
+        requires:
+          - build
+          - test
+      - deploy:
+        requires:
+          -hold
+  
+        
