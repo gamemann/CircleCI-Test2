@@ -34,8 +34,8 @@ jobs:
   # Test our Go web application using the tests/execbtn.py Python script.
   test:
     docker:
-      # Choose CircleCI's Golang image.
-      - image: cimg/go:1.13
+      # Choose CircleCI's Python image.
+      - image: cimg/python:3.7.2
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
