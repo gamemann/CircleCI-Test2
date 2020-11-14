@@ -51,7 +51,7 @@ jobs:
 
       - run: echo "This test job is not finished."
 # Perform our workflows.
-worksflows:
+workflows:
   version: 2
   build-test:
     jobs:
