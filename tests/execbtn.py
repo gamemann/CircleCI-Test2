@@ -11,7 +11,7 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "p:h", ["path="])
     except getopt.GetoptError:
-        print 'execbtn.py -p <path to Firefox binary>'
+        print('execbtn.py -p <path to Firefox binary>')
 
         sys.exit(2)
     
@@ -19,7 +19,7 @@ def main(argv):
         if opt in ("-p", "--path"):
             firefoxpath = arg
         elif opt == "-h":
-            print 'execbtn.py -p <path to Firefox binary>'
+            print('execbtn.py -p <path to Firefox binary>')
             
             sys.exit(0)
 
