@@ -35,7 +35,7 @@ jobs:
   test:
     docker:
       # Choose CircleCI's Python image.
-      - image: cimg/python:3.7.2
+      - image: circleci/python:3.7.2
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
