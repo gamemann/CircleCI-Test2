@@ -60,12 +60,3 @@ workflows:
         # Require our build job to succeed.
         requires:
           - build
-      - hold:
-        type: approval
-        # Require both our build and test jobs to succeed.
-        requires:
-          - build
-          - test
-      - deploy:
-        requires:
-          - hold
