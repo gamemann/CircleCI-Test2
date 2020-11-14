@@ -56,7 +56,7 @@ jobs:
           background: true
 
       # Update.
-      - run: apt-get update
+      - run: sudo apt-get update
 
       # Install software common properties.
       - run: apt-get install -y software-properties-common
