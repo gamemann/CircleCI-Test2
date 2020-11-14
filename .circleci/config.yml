@@ -50,12 +50,14 @@ jobs:
       - run: ls -la build/
 
       - run: echo "This test job is not finished."
+
 # Perform our workflows.
-workflows:
+workflows: 
   version: 2
-  build-test:
-    jobs:
+  build-test: 
+    jobs: 
       - build
-      - test:
-        requires:
+      - test: 
+        # Require our build job to succeed.
+        requires: 
           - build
