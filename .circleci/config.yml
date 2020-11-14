@@ -42,14 +42,45 @@ jobs:
 
     # Steps to test our project.
     steps:
+      # Checkout source code.
+      - checkout
+
       # Attach workspace.
       - attach_workspace:
           at: build/
-      
-      # Test.
-      - run: ls -la build/
 
-      - run: echo "This test job is not finished."
+      # Run web application.
+      - run:
+          name: Go Web Application
+          command: ./build/web
+          background: true
+
+      # Update.
+      - run: apt-get update
+
+      # Install software common properties.
+      - run: apt-get install -y software-properties-common
+
+      # First add Firefox repository.
+      - run: apt-add-repository -y ppa:ubuntu-mozilla-daily/ppa
+
+      # Install Firefox.
+      - run: apt-get install -y firefox-trunk firefox
+
+      # Install the Geckodriver for Firefox.
+      - run: wget https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz
+
+      # Extract the file.
+      - run: tar -xzvf geckodriver-v0.28.0-linux64.tar.gz
+
+      # Move file to /usr/bin.
+      - run: mv geckodriver /usr/bin
+
+      # Install Selenium for Python.
+      - run: pip install selenium
+
+      # Run our Python script.
+      - run: python tests/execbtn.py -p /usr/lib/firefox/firefox
 
 # Perform our workflows.
 workflows:
