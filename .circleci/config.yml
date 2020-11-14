@@ -10,20 +10,27 @@ jobs:
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
+    
+    # Set working directory to /tmp.
+    working_directory: /tmp
+
     # Steps to execute to build our project.
     steps:
       # Checkout our source code.
       - checkout
 
+      # Create build directory.
+      - run: mkdir -p build/
+
       # Install Go Mux dependency.
       - run: go get -u github.com/gorilla/mux
 
       # Build our Go web application.
-      - run: go build src/web.go
+      - run: go build -o build/web src/web.go
 
       # Allow us to use web binary in other jobs (e.g. test).
       - persist_to_workspace:
-          root: .
+          root: build/
           paths:
             - web
 
@@ -36,14 +43,17 @@ jobs:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
 
+    # Set working directory to /tmp.
+    working_directory: /tmp
+
     # Steps to test our project.
     steps:
       # Attach workspace.
       - attach_workspace:
-        at: .
+        at: build
       
       # Test.
-      - run: ls -la
+      - run: ls -la build/
 
       - run: echo "This test job is not finished."
 # Perform our workflows.
@@ -64,4 +74,4 @@ worksflows:
           - test
       - deploy:
         requires:
-          -hold
+          - hold
