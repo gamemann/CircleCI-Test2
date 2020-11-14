@@ -44,7 +44,7 @@ jobs:
     steps:
       # Attach workspace.
       - attach_workspace:
-        at: build/
+          at: build/
       
       # Test.
       - run: ls -la build/
