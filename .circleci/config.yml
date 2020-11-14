@@ -57,6 +57,5 @@ workflows:
     jobs:
       - build
       - test:
-        # Require our build job to succeed.
         requires:
           - build
