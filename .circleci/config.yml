@@ -10,16 +10,13 @@ jobs:
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
-
     # Steps to execute to build our project.
     steps:
       # Checkout our source code.
       - checkout
 
       # Build our Go web application.
-      - run:
-        name: Build our Go web application
-        command: 'go build src/web.go'
+      - run: go build src/web.go
   # Test our Go web application using the tests/execbtn.py Python script.
   test:
     docker:
@@ -33,14 +30,10 @@ jobs:
     steps:
       # Checkout our source code.
       - checkout
-
       - run: echo "This test job is not finished."
-
-
 # Perform our workflows.
 worksflows:
   version: 2
-
   build-test:
     jobs:
       - build
@@ -57,5 +50,3 @@ worksflows:
       - deploy:
         requires:
           -hold
-  
-        
