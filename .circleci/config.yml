@@ -59,25 +59,25 @@ jobs:
           command: ./build/web
           background: true
 
-      # Update.
+      # Update Ubuntu repositories.
       - run: sudo apt-get update
 
       # Install Firefox.
       - run: sudo apt-get install -y firefox-esr
 
-      # Install the Geckodriver for Firefox.
+      # Install the Geckodriver which is needed for Selenium.
       - run: wget https://github.com/mozilla/geckodriver/releases/download/v0.28.0/geckodriver-v0.28.0-linux64.tar.gz
 
-      # Extract the file.
+      # Extract the Geckodriver compressed file.
       - run: tar -xzvf geckodriver-v0.28.0-linux64.tar.gz
 
-      # Move file to /usr/bin.
+      # Move driver file to /usr/bin so it's within $PATH.
       - run: sudo mv geckodriver /usr/bin
 
       # Install Selenium for Python.
       - run: sudo pip install selenium
 
-      # Run our Python script.
+      # Run our Python script and set our Firefox binary appropriately.
       - run: python tests/execbtn.py -p /usr/lib/firefox-esr/firefox-esr
 
   # Our deploy job to deploy to our Digital Ocean VM. 
@@ -98,7 +98,7 @@ jobs:
       # We'll want to add the SSH key we've added to our account. Since it's a public fingerprint, we can show it publicly.
       - add_ssh_keys:
           fingerprints:
-            - "13:ed:53:04:ce:39:e9:7f:e2:e0:68:5a:c1:69:08:db"
+            - "99:fd:e2:e0:a6:d1:06:c1:a6:60:1a:8c:05:2e:16:55"
 
       # Now SSH into our Digital Ocean VM and perform a pull on the latest master branch. The IP is specified as an environmental variable within CircleCI.
       # Note - On the Digital Ocean VM, the base directory is located in /root/CircleCI-Test2.
