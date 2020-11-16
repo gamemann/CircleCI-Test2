@@ -7,6 +7,8 @@ jobs:
     docker:
       # Choose CircleCI's Golang image.
       - image: cimg/go:1.13
+
+        # We don't need this for CircleCI images specifically from what I've seen. However, leaving here just in case.
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
@@ -36,6 +38,8 @@ jobs:
     docker:
       # Choose CircleCI's Python image.
       - image: circleci/python:3.7.2
+
+        # We don't need this for CircleCI images specifically from what I've seen. However, leaving here just in case.
         auth:
           username: $DOCKERHUB_USER
           password: $DOCKERHUB_PASS
@@ -76,12 +80,61 @@ jobs:
       # Run our Python script.
       - run: python tests/execbtn.py -p /usr/lib/firefox-esr/firefox-esr
 
-# Perform our workflows.
+  # Our deploy job to deploy to our Digital Ocean VM. 
+  # Please note the Digital Ocean VM already has cloned the gamemann/CircleCI-Test2 repository into /root/CircleCI-Test2 and also has a systemd service called "website" that runs the built Go application.
+  # If I wanted to fully deploy to a vanilla VM, I'd install Golang via `apt-get update && apt-get install golang-go` for Debian/Ubuntu-based servers, create a systemd file and copy it to the server via `scp` in the deploy job, and then attempt to clone the repository each deployment job via `git clone https://github.com/gamemann/CircleCI-Test2.git` following a `git pull`.
+  deploy:
+    docker:
+      # Choose CircleCI's base image (new generation) which extends the Ubuntu image which is what I'd like to use anyways.
+      - image: cimg/base
+
+        # We don't need this for CircleCI images specifically from what I've seen. However, leaving here just in case.
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASS
+
+    # Steps to test our project.
+    steps:
+      # We'll want to add the SSH key we've added to our account. Since it's a public fingerprint, we can show it publicly.
+      - add_ssh_keys:
+          fingerprints:
+            - "13:ed:53:04:ce:39:e9:7f:e2:e0:68:5a:c1:69:08:db"
+
+      # Now SSH into our Digital Ocean VM and perform a pull on the latest master branch. The IP is specified as an environmental variable within CircleCI.
+      # Note - On the Digital Ocean VM, the base directory is located in /root/CircleCI-Test2.
+      - run: ssh root@$DEPLOYIP 'git -C CircleCI-Test2/ pull'
+
+      # Ensure we have the Go Mux package.
+      - run: ssh root@$DEPLOYIP 'go get -u github.com/gorilla/mux'
+
+      # Now build the application on the Digital Ocean mean.
+      - run: ssh root@$DEPLOYIP 'go -o CircleCI-Test2/web CircleCI-Test2/src/web.go'
+
+      # Restart the systemd server.
+      - run: ssh root@DEPLOYIP 'systemctl restart website'
+
+# Perform our workflow.
 workflows:
   version: 2
-  build-test:
+  build-test-deploy:
     jobs:
+      # Run our build job which doesn't require anything.
       - build
+
+      # Run our test job which requires our build job to be successful.
       - test:
           requires:
             - build
+      
+      # Hold job which waits for approval from build and test.
+      - hold:
+          type: approval
+          requires:
+            - build
+            - test
+
+      # Run our deploy job that requires both build and test jobs to be successful.
+      - deploy
+          requires:
+            - build
+            - test
