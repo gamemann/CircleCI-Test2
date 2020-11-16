@@ -99,6 +99,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "99:fd:e2:e0:a6:d1:06:c1:a6:60:1a:8c:05:2e:16:55"
+      
+      # CircleCI doesn't appear to add the host to .ssh/known_hosts so I'll receive a 'Are you sure you want to continue connecting (yes/no/[fingerprint])?' prompt. I thought `add_ssh_keys` did this automatically, but I cannot get it to work. I SSH'd into the container and confirmed if I hit continue on the job, it'll work fine.
+      - run: ssh-keyscan $DEPLOYIP >> ~/.ssh/known_hosts
 
       # Now SSH into our Digital Ocean VM and perform a pull on the latest master branch. The IP is specified as an environmental variable within CircleCI.
       # Note - On the Digital Ocean VM, the base directory is located in /root/CircleCI-Test2.
