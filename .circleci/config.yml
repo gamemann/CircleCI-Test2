@@ -128,16 +128,14 @@ workflows:
       - test:
           requires:
             - build
-      
-      # Hold job which waits for approval from build and test.
-      - hold:
-          type: approval
-          requires:
-            - build
-            - test
 
       # Run our deploy job that requires both build and test jobs to be successful.
       - deploy:
           requires:
             - build
             - test
+          
+          # Only perform deploy for the 'master' branch.
+          filters:
+            branches:
+              only: master
