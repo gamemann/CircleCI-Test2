@@ -86,7 +86,7 @@ jobs:
   deploy:
     docker:
       # Choose CircleCI's base image (new generation) which extends the Ubuntu image which is what I'd like to use anyways.
-      - image: cimg/base
+      - image: cimg/base:stable
 
         # We don't need this for CircleCI images specifically from what I've seen. However, leaving here just in case.
         auth:
