@@ -114,7 +114,7 @@ jobs:
       - run: ssh root@$DEPLOYIP 'go build -o CircleCI-Test2/web CircleCI-Test2/src/web.go'
 
       # Restart the systemd server.
-      - run: ssh root@DEPLOYIP 'systemctl restart website'
+      - run: ssh root@$DEPLOYIP 'systemctl restart website'
 
 # Perform our workflow.
 workflows:
