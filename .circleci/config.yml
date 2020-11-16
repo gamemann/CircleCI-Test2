@@ -134,7 +134,7 @@ workflows:
             - test
 
       # Run our deploy job that requires both build and test jobs to be successful.
-      - deploy
+      - deploy:
           requires:
             - build
             - test
