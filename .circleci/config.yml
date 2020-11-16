@@ -111,7 +111,7 @@ jobs:
       - run: ssh root@$DEPLOYIP 'go get -u github.com/gorilla/mux'
 
       # Now build the application on the Digital Ocean mean.
-      - run: ssh root@$DEPLOYIP 'go -o CircleCI-Test2/web CircleCI-Test2/src/web.go'
+      - run: ssh root@$DEPLOYIP 'go build -o CircleCI-Test2/web CircleCI-Test2/src/web.go'
 
       # Restart the systemd server.
       - run: ssh root@DEPLOYIP 'systemctl restart website'
